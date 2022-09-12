@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-app-compat.js"></script> -->
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-performance-compat.js"></script> -->
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <!-- <script defer src="/__/firebase/init.js?useEmulator=true"></script> -->
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+    <link href="app.css" rel="stylesheet" />
+    <!-- <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script> -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <form id="payment-form">
+      <div id="payment-element">
+
+      </div>
+      <button id="submit">Submit</button>
+      <div id="error-message"></div>
+
+    </form>
+
+
+    <script type="module" >
+      // const appId = 'sandbox-sq0idb-n9vkU4ernw8TJuD2IRpU0A';
+      // const locationId = 'LZAFXMDYDH3S1';
+
+      const stripe = Stripe('pk_test_51LCmGyE1N4ioGCdR6UcKcjiZDb8jfZaaDWcIGhdaUCyhcIDBxG9uYzLGFtziZjZ6R6VnSSVEMW8dUZ8IfnwvSSBa0044BHRyL5');  
+
+      // Hide the second form on load
+      $("#EVENT_TWO").hide();
+
+      // Set El
+      let elements;
+
+      // Initalize & Create scene
+      initialize();
+      checkStatus();
+
+      // Get our secret 
+      document.querySelector("#payment-form").addEventListener("submit", handleSubmit);
+      localStorage.clear();
+        console.log("PUBLIC - INDEX.JS", localStorage);
+
+      /**
+       * Fetches a payment intent and captures the client secret
+       */
+      async function initialize() {
+        // GET: BE to init/create scene for using FB/Shopify/Stripe
+        // var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/funnelAPI/customers/createSession");
+        // var { clientSecret, FB_UUID } = await response.json();
+        // window.firebase.analytics().logEvent('page_view', {page_location: window.location});
+
+        const clientSecret = "seti_1LJMFUE1N4ioGCdRMh4KaX4r_secret_M1P3vVp9r0fRIiSC2X0AlDuR5AwNUh7"
+        // Add FB_UUID & Stripe C_secret to Local Storage
+        localStorage.setItem("FB_UUID", "");
+        localStorage.removeItem("FB_UUID")
+        // localStorage.setItem("FB_UUID", FB_UUID);
+        localStorage.setItem("cSecret", clientSecret);
+        console.log("PUBLIC - INDEX.JS", localStorage);
+        
+        // Styling when needed
+        const appearance = {
+          theme: 'stripe',
+        };
+        
+        // Create our Form el
+        elements = stripe.elements({ appearance,  clientSecret});
+
+        // Use el and inject in our fomr (Stripe)
+        const paymentElement = elements.create("payment");
+        paymentElement.mount("#payment-element");
+        console.log("PUBLIC - INDEX.JS", localStorage);
+      }
+
+      /**
+       * Fetches the payment intent status after payment submission
+       * @returns 
+       */
+      async function checkStatus() {
+        const clientSecret = new URLSearchParams(window.location.search).get(
+          "payment_intent_client_secret"
+        );
+
+        if (!clientSecret) {
+          return;
+        }
+
+        const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+        switch (paymentIntent.status) {
+          case "succeeded":
+            showMessage("Payment succeeded!");
+            break;
+          case "processing":
+            showMessage("Your payment is processing.");
+            break;
+          case "requires_payment_method":
+            showMessage("Your payment was not successful, please try again.");
+            break;
+          default:
+            showMessage("Something went wrong.");
+            break;
+        }
+      }
+
+      /**
+       * Generate UI Messages
+       * @param {*} messageText 
+       */
+      function showMessage(messageText) {
+        const messageContainer = document.querySelector("#payment-message");
+
+        messageContainer.classList.remove("hidden");
+        messageContainer.textContent = messageText;
+
+        setTimeout(function () {
+          messageContainer.classList.add("hidden");
+          messageText.textContent = "";
+        }, 4000);
+      }
+
+
+      /**
+       *  Get the address & Submit to Stripe/FB 
+       *  * Create PI object to collect CC info for Stripe
+       *  ! SHOPIFY IS NOT MODIFIED -- NOT UNTIL '/CHEKCOUT'
+       *  @param {*} event 
+       */
+      async function handleSubmit(e) {
+        e.preventDefault();
+        // window.firebase.analytics().logEvent('add_payment_info');
+
+        // // reset vars
+        // var address = {}
+        // var name = ""
+
+        // // Get Form & Inputs for Address Obj
+        // $("form#payment-form input[type=text]").each(function(){
+        //     var input = $(this); 
+        //     if ([input.attr('name')] == 'firstName' ) {
+        //       name = input.val()
+        //     } else {
+        //         address = {
+        //             ...address,
+        //             [input.attr('name')]: input.val()
+        //         }
+        //     }
+        // });
+        
+        // // Form Shipping object for stripe
+        // const shippingAddress = {
+        //   address: address,
+        //   name: name
+        // }
+
+        // // Create Data Object to be POSTed
+        // const d = {shipping: shippingAddress, FB_UUID: localStorage.getItem("FB_UUID"), product: product, bump: bump}
+
+        // console.log(d)
+
+        // if (d.FB_UUID && d.shipping.address && d.shipping.name) {
+        //   $("#submit").text("Loading...");
+        //   // Post Data to BE for Stripe & FB
+        //   await fetch('https://us-central1-shopify-recharge-352914.cloudfunctions.net/funnelAPI/customers/update', {
+        //     method: "POST",
+        //     body: JSON.stringify(d),
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //     }
+        //   });
+        //   // window.firebase.analytics().logEvent('add_payment_info', {
+        //   //   currency: "USD",
+        //   //   value: product.price
+        //   // });
+        // } else {
+        //   console.log("NO EMAIl");
+        // }
+
+        // Handle Strie Client Tunnel 
+        const {error} = await stripe.confirmSetup({
+          //`Elements` instance that was used to create the Payment Element
+          elements,
+          confirmParams: {
+            return_url: 'http://127.0.0.1:5500/public/product.html',
+          }
+        });
+
+        if (error) {
+          const messageContainer = document.querySelector('#error-message');
+          messageContainer.textContent = error.message;
+        } else { // avtivate return URL 
+        }
+      };
+
+      console.log("started")
+
+      // Pass the failed PaymentIntent to your client from your serve
+
+
+
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // const loadEl = document.querySelector('#load');
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // // The Firebase SDK is initialized and available here!
+        // // Import the functions you need from the SDKs you need
+        
+        // // Your web app's Firebase configuration
+        // // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // const firebaseConfig = {
+        //   apiKey: "AIzaSyBVbUajosWuWo6RDhcwarsoFb5vQULdm50",
+        //   authDomain: "shopify-recharge-352914.firebaseapp.com",
+        //   projectId: "shopify-recharge-352914",
+        //   storageBucket: "shopify-recharge-352914.appspot.com",
+        //   messagingSenderId: "282916076195",
+        //   appId: "1:282916076195:web:5f4863d335fd2394ff5d16",
+        //   measurementId: "G-3LFMNFVE5Y"
+        // };
+
+        // // Initialize Firebase
+        // const app = firebase.initializeApp(firebaseConfig);
+        // const analytics = getAnalytics(app);
+        // //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // // firebase.messaging().requestPermission().then(() => { });
+        // // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // // firebase.analytics().logEvent('tutorial_completed');
+        // // firebase.performance(); // call to activate
+        // //
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        // try {
+        //   let app = firebase.app();
+        //   let features = [
+        //     'auth', 
+        //     'database', 
+        //     'firestore',
+        //     'functions',
+        //     'messaging', 
+        //     'storage', 
+        //     'analytics', 
+        //     'remoteConfig',
+        //     'performance',
+        //   ].filter(feature => typeof app[feature] === 'function');
+        //   loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        // } catch (e) {
+        //   console.error(e);
+        //   loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        // }
+      });
+    </script>
+  </body>
+</html>
