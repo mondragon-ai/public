@@ -251,6 +251,28 @@
     .variant-list-container p {
       margin-top: 25px;
     }
+    .var-img-thumb,
+    .alt-product-img {
+      width: auto; 
+      height: auto; 
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+    }
+
+    .var-img-thumb-container,
+    .additonal-product-upload {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    } 
+
+    .var-img-thumb-container {
+      width: 20%;
+      padding: 2%;
+    }
   </style>
 
   <body>
@@ -260,13 +282,13 @@
         <header>
           <div class="title">
             <div class="">
-              <h1>Product Title</h1>
+              <h1 class="PRODUCT_TITLE">Product Title</h1>
             </div>
           </div>
           <div id="" class="quick-actions">
-            <div class=""><h3>Duplicate</h3></div>
-            <div class=""><h3>Turn On</h3></div>
-            <div class=""><h3>Delete</h3></div>
+            <div id="COPY"><h3>Duplicate</h3></div>
+            <div id="ACTIVATE"><h3>Turn On</h3></div>
+            <div id="DELETE"><h3>Delete</h3></div>
           </div>
         </header>
         <div class="product-level-container">
@@ -277,7 +299,7 @@
               <div class="product-text">
                 <label for="title">
                   title
-                  <input type="text" name="title" placeholder="New Product Name Here < ---">
+                  <input class="PRODUCT_TITLE" type="text" name="title" placeholder="New Product Name Here < ---">
                 </label>
                 <label for="description">
                   Description
@@ -287,27 +309,12 @@
                 <!-- IMAGES CONTAINER -->
                 <div class="lower-level">
                   <div class="media-container">
-                    <div>
+                    <div id="FEATURE_IMG" >
                       <!-- IF MAIN EXISTS SWITCH -->
                       <img src="URL" alt="MAIN" height="100" width="85" id="MAIN_FEATURE" /> 
                     </div>
                     <div class="additional-imgs-container">
                       <!-- IF MAIN EXISTS SWITCH -->
-                      <div class="additonal-product-upload">
-                        <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
-                      </div> 
-                      <div class="additonal-product-upload">
-                        <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
-                      </div> 
-                      <div class="additonal-product-upload">
-                        <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
-                      </div> 
-                      <div class="additonal-product-upload">
-                        <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
-                      </div> 
-                      <div class="additonal-product-upload">
-                        <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
-                      </div> 
                       <div class="additonal-product-upload">
                         <img src="URL" alt="MAIN" height="45" width="23" class="alt-product-img" /> 
                       </div> 
@@ -353,28 +360,10 @@
             <div class="options-title"><h2>Options</h2></div>
             <div class="options">
               <div class="option-row">
-                <div class="delete">X</div>
+                <div class="DELETE_OPTIONS">X</div>
                 <div class="options-text">
                   <div class="option-title"><h4>Size</h4></div>
                   <div class="options-text-row">
-                    <p>S</p>
-                    <p>M</p>
-                    <p>L</p>
-                    <p>XL</p>
-                    <p>2XL</p>
-                    <p>3XL</p>
-                  </div>
-                </div>
-                <div class="edit">EDIT</div>
-              </div>
-              <div class="option-row">
-                <div class="delete">X</div>
-                <div class="options-text">
-                  <div class="option-title"><h4>Color</h4></div>
-                  <div class="options-text-row">
-                    <p>Blue</p>
-                    <p>Black</p>
-                    <p>Red</p>
                   </div>
                 </div>
                 <div class="edit">EDIT</div>
@@ -386,60 +375,6 @@
               <div class="options-title">Variant</div>
               <div>Add Variant</div>
             </header>
-            <div class="variant-row">
-              <div class="var-img-thumb">
-                <img src="URL" alt="var-img-thumb">
-              </div>
-              <div class="var-text">
-                <p>S / Black</p>
-              </div>
-              <div class="var-price">
-                <input type="number" name="var-price" id="var-price" placeholder="$20.00">
-              </div>
-              <div class="var-quantity">
-                <input type="number" name="var-quantity" id="var-quantity" placeholder="10">
-              </div>
-              <div class="var-sku">
-                <input type="text" name="var-sku" id="var-sku" placeholder="NKL-SL-10mm-004">
-              </div>
-              <div class="edit">EDIT</div>
-            </div>
-            <div class="variant-row">
-              <div class="var-img-thumb">
-                <img src="URL" alt="var-img-thumb">
-              </div>
-              <div class="var-text">
-                <p>S / Black</p>
-              </div>
-              <div class="var-price">
-                <input type="number" name="var-price" id="var-price" placeholder="$20.00">
-              </div>
-              <div class="var-quantity">
-                <input type="number" name="var-quantity" id="var-quantity" placeholder="10">
-              </div>
-              <div class="var-sku">
-                <input type="text" name="var-sku" id="var-sku" placeholder="NKL-SL-10mm-004">
-              </div>
-              <div class="edit">EDIT</div>
-            </div>
-            <div class="variant-row">
-              <div class="var-img-thumb">
-                <img src="URL" alt="var-img-thumb">
-              </div>
-              <div class="var-text">
-                <p>S / Black</p>
-              </div>
-              <div class="var-price">
-                <input type="number" name="var-price" id="var-price" placeholder="$20.00">
-              </div>
-              <div class="var-quantity">
-                <input type="number" name="var-quantity" id="var-quantity" placeholder="10">
-              </div>
-              <div class="var-sku">
-                <input type="text" name="var-sku" id="var-sku" placeholder="NKL-SL-10mm-004">
-              </div>
-              <div class="edit">EDIT</div>
-            </div>
           </div>
         </div>
       </div>
@@ -447,28 +382,120 @@
 
     <script>
 
-      var product_list = document.getElementsByClassName('products-list');
-      var products = ``;
+      async function fetchCollection() {
 
-
-      async function fetchDocument() {
-
-        var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/products",{
-          method:"POST",
+        var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/products", {
+          method: "POST",
           headers: {
-            'Content-Type': "application/json"
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
-            product_uuid: "pro_TT0GfAfboNJtamE83ztC"
+            product_uuid: "pro_TT0GfAfboNJtamE83ztC",
           })
         });
-
         var data = await response.json();
-        console.log(data);
+        var product = data.d;
+
+        console.log(" ==> PRODUCT: ", product[0]);
+        // =====================================================================================================================
+        // Title Selector
+        // =====================================================================================================================
+        var PRODUCT_TITLES = document.getElementsByClassName('PRODUCT_TITLE');
+        PRODUCT_TITLES[0].innerHTML = ``;
+        PRODUCT_TITLES[1].ariaPlaceholder = ``;
+
+        // Product Title
+        PRODUCT_TITLES[0].innerHTML = product[0].title;
+        PRODUCT_TITLES[1].placeholder = product[0].title;
+        // =====================================================================================================================
+        // Options Selector
+        // =====================================================================================================================
+        var PRODUCT_OPTIONS = document.getElementsByClassName('options');
+
+        // Options Selector
+        var OPTION = document.getElementsByClassName('options-text-row');
+        OPTION[0].innerHTML = ``;
+
+        // Create Option Rows
+        var optionList = ``;
+        var optionsFromDB = product[0].options;
+        optionsFromDB.forEach(function(v,i) {
+
+          if (v.option1) {
+            v.option1.forEach((o,i) => {
+              optionList = optionList + `<p>${o}</p>`
+            });
+          }
+        });
+
+        console.log(" ==> OPTIONS: ", optionList);
+
+        // DIV tags
+        var OPTION_TEMPLATE = `<div class="option-row">
+          <div class="DELETE_OPTIONS">X</div>
+          <div class="options-text">
+            <div class="option-title"><h4>Size</h4></div>
+            <div class="options-text-row">
+              ${optionList}
+            </div>
+          </div>
+          <div class="edit">EDIT</div>
+        </div>`;
+        PRODUCT_OPTIONS[0].innerHTML = OPTION_TEMPLATE;
+
+        // =====================================================================================================================
+        // Variants Selector
+        // =====================================================================================================================
+        var PRODUCT_VAR_CONTAINER = document.getElementsByClassName('variant-list-container');
+
+        var variantList = ``;
+        var varsFromDB = product[0].variants;
+
+        varsFromDB.forEach(function(v,i) {
+          variantList = variantList + `
+        <div class="variant-row">
+          <div class="var-img-thumb-container">
+            <img src="${product[0].images[0].src}" class="var-img-thumb" alt="var-img-thumb">
+          </div>
+          <div class="var-text">
+            <p> ${v.option1} / ${v.option2} </p>
+          </div>
+          <div class="var-price">
+            <input type="number" name="var-price" id="var-price" placeholder="$${product[0].price}">
+          </div>
+          <div class="var-quantity">
+            <input type="number" name="var-quantity" id="var-quantity" placeholder="${v.quantity}">
+          </div>
+          <div class="var-sku">
+            <input type="text" name="var-sku" id="var-sku" placeholder="${v.sku}">
+          </div>
+          <div class="edit">EDIT</div>
+        </div>`
+        });
+        PRODUCT_VAR_CONTAINER[0].innerHTML = variantList;
+
+        // =====================================================================================================================
+        //  IMAGES   
+        // =====================================================================================================================
+        var PRODUCT_IMG_CONTAINER_OTHER = document.getElementsByClassName('additional-imgs-container');
+        PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = ``;
+
+        var additionalIMGList = ``;
+        var imgsFromFB = product[0].images;
+
+        imgsFromFB.forEach(function(v,i) {
+          additionalIMGList = additionalIMGList + `
+            <div class="additonal-product-upload">
+              <img src="${v.src}" alt="" height="45" width="23" class="alt-product-img" /> 
+            </div>`;
+        });
+        PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = additionalIMGList;
+
       }
 
-      fetchDocument()
+      fetchCollection()
+
 
 
 

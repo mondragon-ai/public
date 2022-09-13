@@ -164,16 +164,30 @@
         padding: 5% 7%;
         margin: 0 2%;
     }
+    .lower-container {
+        padding: 0%;
+        width: 85%;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .lower-container > div {
+        padding: 5%;
+    }
   </style>
 
   <body>
 
     <section>
-        
+
     </section>
 
     <section>
-      <div id="CREATE_PRODUCT" class="product-container">
+      <form id="CREATE_PRODUCT" class="product-container">
         <div class="progress-container">
 
         </div>
@@ -191,12 +205,36 @@
             <div class="product-text main-content">
                 <label for="title">
                 title
-                <input type="text" name="title" placeholder="New Product Name Here < ---">
+                <input type="text" class="PRODUCT_TITLE" name="title" id="title" placeholder="New Product Name Here < ---">
                 </label>
                 <label for="description">
                 Description
-                <input id="textarea" type="textarea" name="description" placeholder="New product descirption here < ---">
+                <input type="textarea" name="description"  id="prod-dea" placeholder="New product descirption here < ---">
                 </label>
+            </div>
+
+            <!-- PRICE CONTAINER -->
+            <div class="lower-container">
+                <div class="product-price main-content">
+                    <label for="Price">
+                    Price
+                    <input type="number" class="" name="price" id="pro_price" placeholder="New Product Name Here < ---">
+                    </label>
+                    <label for="Compare">
+                    Compare At
+                    <input type="number" name="compare"  id="compare" placeholder="New product descirption here < ---">
+                    </label>
+                </div>
+                <div class="product-price main-content">
+                    <label for="needsShipping">
+                    Requires Shipping
+                    <input type="checkbox" name="needsShipping" id="needsShipping" >
+                    </label>
+                    <label for="isActive">
+                    Is Active
+                    <input type="checkbox" name="isActive"  id="isActive" >
+                    </label>
+                </div>
             </div>
 
         </div>
@@ -257,49 +295,19 @@
             <!-- TEXT CONTAINER -->
             <div class="main-content">
                 <div class="options-checkbox">
-                    <label for="options">
+                    <label onclick="toggleOptions()" for="options">
                         Need Options
-                        <input type="checkbox" name="options" />
+                        <input id="toggleOptions"  type="checkbox" name="options" />
                     </label>
                 </div>
                 <div class="options" style="display: box;">
-                    <div class="option-row">
-                        <label for="options">
-                            Options One
-                            <input type="text" name="options" />
-                        </label>
-                        <div>
-                            <p>S</p>
-                            <p>M</p>
-                            <p>L</p>
-                        </div>
-                    </div>
-                    <div class="option-row">
-                        <label for="options">
-                            Options One
-                            <input type="text" name="options" />
-                        </label>
-                        <div>
-                            <p>Black</p>
-                            <p>Blue</p>
-                            <p>Red</p>
-                        </div>
-                    </div>
-                    <div class="option-row">
-                        <label for="options">
-                            Options Three
-                            <input type="text" name="options" />
-                        </label>
-                        <div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
         </div>
 
 
-        <!-- STEP FOUR - Variants-->
+        <!-- STEP FOUR - Variants -->
         <div class="step-four card">
 
             <!-- CARD HEADER -->
@@ -375,7 +383,7 @@
         </div>
 
 
-      </div>
+      </form>
     </section>
     <section>
         <footer>
@@ -384,39 +392,206 @@
             ">BACK</p></div>
             <div>
                 <div>NEXT</div>
-                <div>COMPLETE</div>
+                <input 
+                    style=" padding: 0% 7%;"
+                    type="button" 
+                    onclick="createProduct()" value="CREATE">
+                </input>
             </div>
         </footer>
     </section>
 
     <script>
 
-      var product_list = document.getElementsByClassName('products-list');
-      var products = ``;
+        async function toggleOptions() {
+            console.log("Toggle Options");
+            var hasOptions = document.getElementById("toggleOptions").checked; //options
+            if (hasOptions) {
+                var options = document.getElementsByClassName("options");
+                options[0].innerHTML = `
+                    <div class="option-row">
+                        <label for="options">
+                            Options One: Size
+                            <input type="text" name="options" id="optionOne" />
+                        </label>
+                        <div>
+                            <p>Please use commas to seperate options.</p>
+                        </div>
+                    </div>
+                    <div class="option-row">
+                        <label for="options">
+                            Options One: Color
+                            <input type="text" name="options" id="optionTwo" />
+                        </label>
+                        <div>
+                            <p>Please use commas to seperate options.</p>
+                        </div>
+                    </div>                    
+                    <div class="option-row">
+                        <label for="options">
+                            Options One: Color
+                            <input type="text" name="options" id="optionThree" />
+                        </label>
+                        <div>
+                            <p>Please use commas to seperate options.</p>
+                        </div>
+                    </div>`;
+            }
+        }
 
 
-      async function fetchDocument() {
+        /**
+         * Create a list of variants from the options || single variant in instance of no options. 
+         * @param product: Product
+         * @param options1: string[]
+         * @param options2: string[]
+         * @param options3: string[]
+         * @returns Variant[]
+         */
+        function createVariantsFromOptions(
+            product,
+            options1 = [],
+            options2 = [],
+            options3 = [],
+        ) {
 
-        var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/products",{
-          method:"POST",
-          headers: {
-            'Content-Type': "application/json"
-          },
-          body: JSON.stringify({
-            FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
-            product_uuid: "pro_TT0GfAfboNJtamE83ztC"
-          })
-        });
+            // Variant var instance returned
+            let variants = [];
 
-        var data = await response.json();
-        console.log(data);
-      }
+            // if only ONE option list exists, loop & create variants (ONE)
+            if (options1?.length != 0 && options2?.length == 0 && options3?.length == 0) {
+                options1?.forEach((v,i) => {
+                    variants.push({
+                        sku: "",
+                        price: product.price,
+                        option1: v,
+                        option2: "",
+                        option3: "",
+                        quantity: product.quantity,
+                    });
+                })
+            }
 
-      fetchDocument()
+            // if TWO option lists exists, loop & create variants (ONE * TWO)
+            if (options1?.length != 0  && options2?.length != 0 &&  options3?.length == 0) {
+                options1?.forEach((one,i) => {
+                    if (i <= options2.length) {
+                        options2?.forEach((two,i) => {
+                            variants.push({
+                            sku: "",
+                            price: product.price,
+                            option1: one,
+                            option2: two,
+                            quantity: product.quantity,
+                            });
+                        });
+                    }
+                })
+            }
+
+            // if TWO option lists exists, loop & create variants (ONE * TWO * THREE)
+            if (options1?.length != 0  && options2?.length != 0 && options3?.length != 0) {
+                options1?.forEach((one,i) => {
+                    options2?.forEach((two,i) => {
+                        options3?.forEach((three,i) => {
+                        variants.push({
+                            sku: "",
+                            price: product.price,
+                            option1: one,
+                            option2: two,
+                            option3: three,
+                            quantity: product.quantity,
+                        });
+                        });
+                    });
+                })
+            }
+            return variants;
+        }
+
+
+        async function createProduct() {
+            console.log("TEST");
+
+            // Product - Slide One - Text
+            var title = document.getElementById('title').value;
+            var description = document.getElementById('prod-dea').value;
+
+            // Product - Slide One - Prices
+            var price = document.getElementById('pro_price').value;
+            var compare = document.getElementById('compare').value;
+
+
+            // Product - Slide Three - Options
+            var option1 = document.getElementById('optionOne').value;
+            var option2 = document.getElementById('optionTwo').value;
+            var option3 =  document.getElementById('optionThree').value;
+
+            // Check Boxes
+            var hasOptions = document.getElementById("toggleOptions").checked; 
+            var needsShipping = document.getElementById("needsShipping").checked;
+            var isActive = document.getElementById("isActive").checked;//
+
+
+            console.log(option1.split(','));
+            console.log(option2);
+            console.log(option3);
+            console.log(needsShipping);
+            console.log(isActive);
+
+            var data = {
+                FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                new_data: {
+                    compare_at: compare > 0 ? compare : 0,
+                    price: price,
+                    quantity: 50,
+                }
+            }
+
+
+            var vars = createVariantsFromOptions(data.new_data,option1.split(','),option2.split(','),option3.split(','));
+
+
+            var data = {
+                FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                new_data: {
+                    title: title,
+                    description: description,
+                    handle: title.toLowerCase().replace(/\s/g, '-'),
+                    on_sale: compare > 0 ? true : false,
+                    compare_at: compare > 0 ? compare : 0,
+                    price: price,
+                    requires_shipping: needsShipping,
+                    quantity: 50,
+                    status: isActive,
+                    has_options: isActive,
+                    options: [
+                        {options1: option1.split(',')},
+                        {options2: option2.split(',')},
+                        {options3: option3.split(',')}
+                    ], 
+                    variants: vars
+                }
+            }
+            console.log(data);
+
+            var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/products/create",{
+                method:"POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            // var data = await response.json();
+            // console.log(data);
+
+        }
 
 
 
-      document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function() {
         // const loadEl = document.querySelector('#load');
         // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // // The Firebase SDK is initialized and available here!
