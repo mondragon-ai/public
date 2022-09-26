@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-app-compat.js"></script> -->
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-performance-compat.js"></script> -->
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <!-- <script defer src="/__/firebase/init.js?useEmulator=true"></script> -->
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+    <link href="app.css" rel="stylesheet" />
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+  </head>
+  <style>
+    * {
+      border: 0.5px solid rgb(204, 36, 36);
+    }
+
+    .var-text-container,
+    .cart-list-container,
+    header,
+    .title,
+    .product-container {
+      width: 100%;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: flex-start;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .cart-item,
+    .header-text-row {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: flex-end;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .header-text-row div {
+        padding: 1% 5%;
+    }
+
+    .inner-cart,
+    .cart-item {
+        width: 90%;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: space-between;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid rgb(108, 108, 108);
+    }
+
+    .inner-cart {
+        width: 50%;
+        border-top: 0px solid black;
+    }
+
+    .var-text-container {
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 50%;
+        padding: 0% 3%;
+    }
+
+    .title {
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header {
+      width: 90%;
+      height: auto;
+      padding: 5% 0;
+      text-align: center;
+    }
+
+    img,
+    .main-img-f,
+    .var-img-thumb,
+    .alt-product-img {
+      width: auto; 
+      height: auto; 
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+    }
+
+    .img-container {
+        width: 50%;
+    }
+    .price-container,
+    .quantity {
+        padding: 0 5%;
+    }
+
+    button:focus,
+input:focus{
+  outline: none;
+  box-shadow: none;
+}
+a,
+a:hover{
+  text-decoration: none;
+}
+
+    .qty-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .qty-container .input-qty{
+    text-align: center;
+    padding: 6px 10px;
+    border: 1px solid #d4d4d4;
+    max-width: 80px;
+    }
+    .qty-container .qty-btn-minus,
+    .qty-container .qty-btn-plus{
+    border: 1px solid #d4d4d4;
+    padding: 10px 13px;
+    font-size: 10px;
+    height: 38px;
+    width: 38px;
+    transition: 0.3s;
+    }
+    .qty-container .qty-btn-plus{
+    margin-left: -1px;
+    }
+    .qty-container .qty-btn-minus{
+    margin-right: -1px;
+    }
+    input {
+        margin: 0 !important;
+    }
+
+
+
+
+  </style>
+
+  <body>
+
+    <section>
+      <div id="CART_PAGE" class="product-container">
+        <header>
+          <div class="title">
+            <div class="">
+              <h1 class="">Cart</h1>
+              <a href="http://127.0.0.1:5500/public/product-page.html">continue shopping</a>
+            </div>
+          </div>
+          <div class="header-text-row">
+            <div>
+                <h5>Quantity</h5>
+            </div>
+            <div>
+                <h5>Price</h5>
+            </div>
+          </div>
+        </header>
+        <div class="cart-list-container">
+            <div class="cart-item">
+                <div class="inner-cart">
+                    <div class="img-container main-img">
+                        <img class="" src="URL" alt="">
+                    </div>
+                    <div class="var-text-container">
+                        <p class="PRODUCT_TITLE"></p>
+                        <p class="OPTIONS">S / Black</p>
+                        <p class="TOP_MSG"></p>
+                        <p class="BTM_MSG"></p>
+                    </div>
+                </div>
+                <div class="inner-cart" style="align-content: flex-end;justify-content: flex-end;">
+                    <div class="quantity">
+
+                        <div class="qty-container">
+                            <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                            <input type="text" name="qty" value="0" class="input-qty"/>
+                            <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+                        </div>
+
+                    </div>
+                    <div class="price-container">
+                        <p></p>
+                        <p class="PRODUCT_PRICE">test</p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div >
+            <button>CHECKOUT</button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+
+        var buttonPlus  = jQuery(".qty-btn-plus");
+        var buttonMinus = jQuery(".qty-btn-minus");
+
+        console.log(buttonPlus);
+        var incrementPlus = buttonPlus.click(function() {
+            console.log("HELP");
+            var $n = jQuery(this)
+            .parent(".qty-container")
+            .find(".input-qty");
+            $n.val(Number(Number.parseInt($n.val()))+1 );
+        });
+
+        var incrementMinus = buttonMinus.click(function() {
+            console.log("HELP");
+            var $n = jQuery(this)
+            .parent(".qty-container")
+            .find(".input-qty");
+            var amount = Number.parseInt($n.val());
+            if (amount > 0) {
+                $n.val(amount-1);
+            }
+        });
+    
+
+
+        async function fetchProduct() {
+            console.log("car_" + await localStorage.getItem("FB_CART_UUID"));
+
+            var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/carts", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: await JSON.stringify({
+                    FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                    cart_uuid: "car_" + await localStorage.getItem("FB_CART_UUID"),
+                })
+            });
+            var data = await response.json();
+            var cart = data.d;
+
+            console.log(" ==> CART: ", cart);
+            // =====================================================================================================================
+            // Title Selector
+            // =====================================================================================================================
+            // var PRODUCT_TITLES = document.getElementsByClassName('PRODUCT_TITLE');
+            // PRODUCT_TITLES[0].innerHTML = ``;
+
+            // const product = cart.line_items[0];
+            // console.log(" ==> PRODUCT: ", product);
+            // // Product Title
+            // PRODUCT_TITLES[0].innerHTML = product.title;
+            // // =====================================================================================================================
+            // // IMG Selector
+            // // =====================================================================================================================
+            // var featureIMg = document.getElementsByClassName('main-img');
+
+
+            // featureIMg[0].innerHTML = `<img class="main-img-f" src="${product.image_url}" height="300" width="400" alt="">`;
+            // // =====================================================================================================================
+            // // Price Selector
+            // // =====================================================================================================================
+            // var priceDOM = document.getElementsByClassName('PRODUCT_PRICE');
+            // console.log(" ==> PRODUCT: ", priceDOM);
+            // priceDOM[0].innerHTML = "";
+            // priceDOM[0].innerHTML = "" + "$" + product.price;    
+
+            var line_items = document.getElementsByClassName('cart-list-container');
+            var optionsHTML = "";
+
+            // `
+            // <div class="cart-item">
+            //     <div class="inner-cart">
+            //         <div class="img-container main-img">
+            //             <img class="" src="URL" alt="">
+            //         </div>
+            //         <div class="var-text-container">
+            //             <p class="PRODUCT_TITLE"></p>
+            //             <p class="OPTIONS">S / Black</p>
+            //             <p class="TOP_MSG"></p>
+            //             <p class="BTM_MSG"></p>
+            //         </div>
+            //     </div>
+            //     <div class="inner-cart" style="align-content: flex-end;justify-content: flex-end;">
+            //         <div class="quantity">
+
+            //             <div class="qty-container">
+            //                 <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+            //                 <input type="text" name="qty" value="0" class="input-qty"/>
+            //                 <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+            //             </div>
+
+            //         </div>
+            //         <div class="price-container">
+            //             <p></p>
+            //             <p class="PRODUCT_PRICE">test</p>
+            //             <p></p>
+            //         </div>
+            //     </div>
+            // </div>`
+
+            console.log(" ==> CART: ", optionsHTML);
+            cart.line_items.forEach(v => {
+                optionsHTML = optionsHTML + `
+            <div class="cart-item">
+                <div class="inner-cart">
+                    <div class="img-container main-img">
+                        <img class="" src="${v.image_url}" alt="">
+                    </div>
+                    <div class="var-text-container">
+                        <p class="">${v.title}</p>
+                        <p class="OPTIONS">${v.option1}/ ${v.option2}</p>
+                        <p class="TOP_MSG"></p>
+                        <p class="BTM_MSG"></p>
+                    </div>
+                </div>
+                <div class="inner-cart" style="align-content: flex-end;justify-content: flex-end;">
+                    <div class="quantity">
+
+                        <div class="qty-container">
+                            <button class="qty-btn-minus btn-light" type="button"><i class="fa fa-minus"></i></button>
+                            <input type="text" name="qty" value="${v.quantity}" class="input-qty"/>
+                            <button class="qty-btn-plus btn-light" type="button"><i class="fa fa-plus"></i></button>
+                        </div>
+
+                    </div>
+                    <div class="price-container">
+                        <p></p>
+                        <p class="PRODUCT_PRICE">${v.price}</p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>`
+            })
+
+            console.log(" ==> CART: ", optionsHTML);
+            line_items[0].innerHTML = "";
+            line_items[0].innerHTML = optionsHTML;   
+
+            // =====================================================================================================================
+            // Description Selector
+            // =====================================================================================================================
+            // var priceDOM = document.getElementsByClassName('PRODUCT_DESCIRPTION');
+            // priceDOM[0].innerHTML = "";
+            // priceDOM[0].innerHTML = "" + product[0].description;
+        
+
+            // =====================================================================================================================
+            // Variants Selector
+            // =====================================================================================================================
+            // var PRODUCT_VAR_CONTAINER = document.getElementsByClassName('variant-list-container');
+
+            // var variantList = ``;
+            // var varsFromDB = product[0].variants;
+
+            // varsFromDB.forEach(function(v,i) {
+            //   variantList = variantList + `
+            // <div class="variant-row">
+            //   <div class="var-img-thumb-container">
+            //     <img src="${product[0].images[0].src}" class="var-img-thumb" alt="var-img-thumb">
+            //   </div>
+            //   <div class="var-text">
+            //     <p> ${v.option1} / ${v.option2} </p>
+            //   </div>
+            //   <div class="var-price">
+            //     <input type="number" name="var-price" id="var-price" placeholder="$${product[0].price}">
+            //   </div>
+            //   <div class="var-quantity">
+            //     <input type="number" name="var-quantity" id="var-quantity" placeholder="${v.quantity}">
+            //   </div>
+            //   <div class="var-sku">
+            //     <input type="text" name="var-sku" id="var-sku" placeholder="${v.sku}">
+            //   </div>
+            //   <div class="edit">EDIT</div>
+            // </div>`
+            // });
+            // PRODUCT_VAR_CONTAINER[0].innerHTML = variantList;
+
+            // =====================================================================================================================
+            //  IMAGES   
+            // =====================================================================================================================
+            // var PRODUCT_IMG_CONTAINER_OTHER = document.getElementsByClassName('additional-imgs-container');
+            // PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = ``;
+
+            // var additionalIMGList = ``;
+            // var imgsFromFB = product[0].images;
+
+            // imgsFromFB.forEach(function(v,i) {
+            //   additionalIMGList = additionalIMGList + `
+            //     <div class="additonal-product-upload">
+            //       <img src="${v.src}" alt="" height="45" width="23" class="alt-product-img" /> 
+            //     </div>`;
+            // });
+            // PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = additionalIMGList;
+
+        }
+
+        fetchProduct()
+
+        async function addToCart() {
+            console.log("LCIKC TEST");
+
+
+            var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/cart/add-product", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                    cart_uuid: "car_" + await localStorage.getItem("FB_CART_UUID"),
+                    line_item: {
+                        variant_id: line_item.variant_id || "", 
+                        title: line_item.title || "",
+                        price: line_item.price || 0,
+                        has_discount: line_item.has_discount || false,
+                        applied_discount: line_item.applied_discount || 0,
+                        isHighRisk: line_item.isHighRisk  || false,
+                        quantity: line_item.quantity || 1
+                    }
+                })
+            });
+            var data = await response.json();
+            var product = data.d;
+
+            if (response.status < 300) {
+                console.log(response.status)
+                window.location.href = "http://127.0.0.1:5500/public/cart.html"
+            }
+
+
+        }
+
+
+
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // const loadEl = document.querySelector('#load');
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // // The Firebase SDK is initialized and available here!
+        // // Import the functions you need from the SDKs you need
+        
+        // // Your web app's Firebase configuration
+        // // For Firebase JS SDK v7.20.0 and later, measuremenId is optional
+        // const firebaseConfig = {
+        //   apiKey: "AIzaSyBVbUajosWuWo6RDhcwarsoFb5vQULdm50",
+        //   authDomain: "shopify-recharge-352914.firebaseapp.com",
+        //   projectId: "shopify-recharge-352914",
+        //   storageBucket: "shopify-recharge-352914.appspot.com",
+        //   messagingSenderId: "282916076195",
+        //   appId: "1:282916076195:web:5f4863d335fd2394ff5d16",
+        //   measurementId: "G-3LFMNFVE5Y"
+        // };
+
+        // // Initialize Firebase
+        // const app = firebase.initializeApp(firebaseConfig);
+        // const analytics = getAnalytics(app);
+        // //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // // firebase.messaging().requestPermission().then(() => { });
+        // // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // // firebase.analytics().logEvent('tutorial_completed');
+        // // firebase.performance(); // call to activate
+        // //
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        // try {
+        //   let app = firebase.app();
+        //   let features = [
+        //     'auth', 
+        //     'database', 
+        //     'firestore',
+        //     'functions',
+        //     'messaging', 
+        //     'storage', 
+        //     'analytics', 
+        //     'remoteConfig',
+        //     'performance',
+        //   ].filter(feature => typeof app[feature] === 'function');
+        //   loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        // } catch (e) {
+        //   console.error(e);
+        //   loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        // }
+      });
+    </script>
+  </body>
+</html>

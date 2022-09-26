@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-app-compat.js"></script> -->
+    <!-- include only the Firebase features as you need -->
+    <!-- <script defer src="/__/firebase/9.9.3/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.9.3/firebase-performance-compat.js"></script> -->
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <!-- <script defer src="/__/firebase/init.js?useEmulator=true"></script> -->
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+    <link href="app.css" rel="stylesheet" />
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+  </head>
+  <style>
+    *{
+      border: 0.5px solid rgb(204, 36, 36);
+    }
+    .product-container {
+      width: 100%;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: flex-start;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .variant-container {
+      width: 100%;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: flex-start;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    header {
+      width: 90%;
+      height: auto;
+      padding: 5% 0;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: space-between;
+      justify-content: space-between;
+      align-items: space-between;
+    }
+    .quick-actions {
+      width: auto;
+      height: auto;
+      padding: 0% ;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: space-between;
+      justify-content: space-between;
+      align-items: space-between;
+    }
+    .quick-actions div {
+      width: 100px;
+      height: auto;
+      padding: 0% 0% 0 3%;
+      margin: auto 0;
+    }
+    .title h1 {
+      padding: 0% 0;
+      margin: 0% 0;
+    }
+    .variant-container,
+    .options,
+    .variant-container,
+    .product-level-container {
+      width: 90%;
+      height: auto;
+      padding: 2% 0%;
+      margin: 2% 0;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-content: flex-start;
+      justify-content: flex-start;
+      align-items: flex-start;
+      background: white;
+      box-shadow: 1px 1px 12px 0px #aeaeae;
+      border-radius: 5px;
+    }
+    input {
+      margin: 20px 0;
+    }
+    .upper-level {
+      width: 100%;
+      height: auto;
+      padding: 0% 5% 0 3%;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: space-between;
+      justify-content: space-between;
+      align-items: space-between;
+    }
+    .variant-row,
+    .options-text-row,
+    .option-row,
+    .additional-imgs-container,
+    .media-container,
+    .text-container {
+      width: 100%;
+      height: auto;
+      padding:0%;
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: space-between;
+      justify-content: space-between;
+      align-items: space-between;
+    }
+    .options {  
+      width: 100%;  
+      margin: 2% auto;
+      box-shadow: none;
+    }
+    .options-text-row {
+      justify-content: flex-start;
+    }
+
+    .variant-row,
+    .option-row {
+      border-bottom: 1px solid #626262;
+    }
+    .options-text-row p {
+      padding: 4px 7px;
+      margin: 0px 7px;
+      background-color: #039ae570;
+      border-radius: 10px;
+    }
+    .orgonization {
+      width: 35%;
+      height: auto;
+      padding: 0% 3% 0 3%;
+    }
+    .variant-list-container,
+    .option-row,
+    .options-container{
+      width: 90%;
+      margin: 0 auto;
+    }
+    .product-text {
+      width: 65%;
+      height: auto;
+      padding: 2% 3% 0 3%;
+    }
+    .orgonization-display p{
+      width: fit-content;
+      border: 1px solid rgba(0, 0, 0, 0.023);
+      border-radius: 1px;
+      background-color: #039ae570;
+    }
+    .additional-imgs-container,
+    .media-container {
+      align-content: flex-start;
+      justify-content: flex-start;
+      /* padding: 2% 7%; */ 
+      height: 15vh;
+    }
+    .media-container > div {
+      width: 33%;
+      padding: 0 1%;
+    }
+    .additional-imgs-container {
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .additonal-product-upload {
+      width: 33%;
+      height: 50%;
+      padding: 2%;
+    }
+    .alt-product-img {
+      margin: auto;
+    }
+    .lower-level {
+      padding: 2% 0%;
+    }
+    .options-text {
+      width: 70%;
+    }
+    .option-row > div {
+      padding: 0 5%;
+    }
+
+    #textarea {
+      width: 100%;
+      height: 150px;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      resize: none;
+    }
+    .delete {
+      padding: 50px !important;
+    }
+    .edit {
+      padding: 50px !important;
+    }
+    .variant-list-container header { width: 100%;}
+
+    .variant-list-container  .edit {
+      padding: 30px !important;
+    }
+    .variant-list-container p {
+      margin-top: 25px;
+    }
+    .main-img-f,
+    .var-img-thumb,
+    .alt-product-img {
+      width: auto; 
+      height: auto; 
+      max-width: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+    }
+
+    .left,
+    .right,
+    .product-level-container > ,
+    .var-img-thumb-container,
+    .additonal-product-upload {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    } 
+
+    .var-img-thumb-container {
+      width: 20%;
+      padding: 2%;
+    }
+    .left,
+    .right {
+        width: 50%;
+        padding: 2% 5%;
+    }
+
+    .product-level-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      align-content: flex-start;
+    } 
+  </style>
+
+  <body>
+
+    <section>
+      <div id="PRODUCT_PAGE" class="product-container">
+        <header>
+          <div class="title">
+            <div class="">
+              <h1 class="PRODUCT_TITLE">Product Title</h1>
+            </div>
+          </div>
+        </header>
+        <div class="product-level-container">
+            <div class="left">
+                <div class="main-img">
+                    <img class="main-img-f" src="URL" height="300" width="400" alt="">
+                </div>
+                <div class="otherImgs">
+                    <img src="URL" height="30" width="40" alt="">
+                    <img src="URL" height="30" width="40" alt="">
+                    <img src="URL" height="30" width="40" alt="">
+                </div>
+            </div>
+            <div class="right">
+                <div class="Price">
+                    <h3 class="PRODUCT_PRICE">$9.00</h3>
+                    <p class="PRODUCT_DESCIRPTION">Lorem epsum </p>
+                </div>
+                <div class="">
+                    <input type="button" onclick="addToCart()" value="Add TO CART">
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+
+
+        var ip_address = ""
+        jQuery.getJSON("https://api.ipify.org?format=json", function(data) {
+                
+            // Setting text of element P with id gfg
+            // $("#gfg").html(data.ip);
+            ip_address = data.ip;
+        })
+
+        var product;
+
+        async function fetchProduct() {
+
+            console.log("FB_CART_UUID", localStorage);
+
+            var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/products", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                    product_uuid: "pro_WMzDcg4ATt8tZyfNlWBH",
+                })
+            });
+            var data = await response.json();
+            product = data.d;
+
+            console.log(" ==> PRODUCT: ", product[0]);
+            // =====================================================================================================================
+            // Title Selector
+            // =====================================================================================================================
+            var PRODUCT_TITLES = document.getElementsByClassName('PRODUCT_TITLE');
+            PRODUCT_TITLES[0].innerHTML = ``;
+
+            // Product Title
+            PRODUCT_TITLES[0].innerHTML = product[0].title;
+            // =====================================================================================================================
+            // IMG Selector
+            // =====================================================================================================================
+            var featureIMg = document.getElementsByClassName('main-img');
+
+
+            featureIMg[0].innerHTML = `<img class="main-img-f" src="${product[0].images[0].src}" height="300" width="400" alt="">`;
+            // =====================================================================================================================
+            // Price Selector
+            // =====================================================================================================================
+            var priceDOM = document.getElementsByClassName('PRODUCT_PRICE');
+            priceDOM[0].innerHTML = "";
+            priceDOM[0].innerHTML = "" + "$" + product[0].price;    
+
+            // =====================================================================================================================
+            // Description Selector
+            // =====================================================================================================================
+            var priceDOM = document.getElementsByClassName('PRODUCT_DESCIRPTION');
+            priceDOM[0].innerHTML = "";
+            priceDOM[0].innerHTML = "" + product[0].description;
+        
+
+            // =====================================================================================================================
+            // Variants Selector
+            // =====================================================================================================================
+            // var PRODUCT_VAR_CONTAINER = document.getElementsByClassName('variant-list-container');
+
+            // var variantList = ``;
+            // var varsFromDB = product[0].variants;
+
+            // varsFromDB.forEach(function(v,i) {
+            //   variantList = variantList + `
+            // <div class="variant-row">
+            //   <div class="var-img-thumb-container">
+            //     <img src="${product[0].images[0].src}" class="var-img-thumb" alt="var-img-thumb">
+            //   </div>
+            //   <div class="var-text">
+            //     <p> ${v.option1} / ${v.option2} </p>
+            //   </div>
+            //   <div class="var-price">
+            //     <input type="number" name="var-price" id="var-price" placeholder="$${product[0].price}">
+            //   </div>
+            //   <div class="var-quantity">
+            //     <input type="number" name="var-quantity" id="var-quantity" placeholder="${v.quantity}">
+            //   </div>
+            //   <div class="var-sku">
+            //     <input type="text" name="var-sku" id="var-sku" placeholder="${v.sku}">
+            //   </div>
+            //   <div class="edit">EDIT</div>
+            // </div>`
+            // });
+            // PRODUCT_VAR_CONTAINER[0].innerHTML = variantList;
+
+            // =====================================================================================================================
+            //  IMAGES   
+            // =====================================================================================================================
+            // var PRODUCT_IMG_CONTAINER_OTHER = document.getElementsByClassName('additional-imgs-container');
+            // PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = ``;
+
+            // var additionalIMGList = ``;
+            // var imgsFromFB = product[0].images;
+
+            // imgsFromFB.forEach(function(v,i) {
+            //   additionalIMGList = additionalIMGList + `
+            //     <div class="additonal-product-upload">
+            //       <img src="${v.src}" alt="" height="45" width="23" class="alt-product-img" /> 
+            //     </div>`;
+            // });
+            // PRODUCT_IMG_CONTAINER_OTHER[0].innerHTML = additionalIMGList;
+
+        }
+
+        fetchProduct()
+
+        async function addToCart() {
+            console.log("LCIKC TEST");
+            console.log(product[0]);
+            console.log(ip_address);
+
+
+            var response = await fetch("https://us-central1-shopify-recharge-352914.cloudfunctions.net/platform/cart/create", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: await JSON.stringify({ 
+                    FB_MERCHANT_UUID: "QilaBD5FGdnF9iX5K9k7",
+                    new_data: {
+                        type: "CART",
+                        isActive: true,
+                        gateway:  "STRIPE", 
+                        has_card: false,
+                        has_discount: false,
+                        gift_card: "GIFT_CARD",
+                        browser_ip: ip_address,
+                        line_items: [
+                            {
+                                ...product[0].variants[0],
+                                image_url: "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1600",
+                                title: product[0].title,
+                                price: Number.parseInt(product[0].price),
+                                has_discount: false,
+                                applied_discount: 0,
+                                isHighRisk: false,
+                                quantity: 1
+                            },
+                            {
+                                ...product[0].variants[0],
+                                image_url: "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1600",
+                                title: "That Product",
+                                price: 1200,
+                                has_discount: false,
+                                applied_discount: 0,
+                                isHighRisk: false,
+                                quantity: 1
+                            },
+                            {
+                                ...product[0].variants[0],
+                                image_url: "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1600",
+                                title: "THis Product",
+                                price: 570,
+                                has_discount: false,
+                                applied_discount: 0,
+                                isHighRisk: false,
+                                quantity: 1
+                            }
+                        ]
+                    }
+                })
+            });
+            var data = await response.json();
+            var cart_uuid = data.d;
+
+            await localStorage.setItem("FB_CART_UUID", "");
+            await localStorage.removeItem("FB_CART_UUID");
+            await localStorage.setItem("FB_CART_UUID", cart_uuid);
+
+            console.log("FB_CART_UUID", cart_uuid)
+            console.log(await localStorage.getItem("FB_CART_UUID"));
+            if (response.status < 300) {
+                console.log(response.status)
+                window.location.href = "http://127.0.0.1:5500/public/cart.html"
+            }
+
+
+        }
+
+
+
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // const loadEl = document.querySelector('#load');
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // // The Firebase SDK is initialized and available here!
+        // // Import the functions you need from the SDKs you need
+        
+        // // Your web app's Firebase configuration
+        // // For Firebase JS SDK v7.20.0 and later, measuremenId is optional
+        // const firebaseConfig = {
+        //   apiKey: "AIzaSyBVbUajosWuWo6RDhcwarsoFb5vQULdm50",
+        //   authDomain: "shopify-recharge-352914.firebaseapp.com",
+        //   projectId: "shopify-recharge-352914",
+        //   storageBucket: "shopify-recharge-352914.appspot.com",
+        //   messagingSenderId: "282916076195",
+        //   appId: "1:282916076195:web:5f4863d335fd2394ff5d16",
+        //   measurementId: "G-3LFMNFVE5Y"
+        // };
+
+        // // Initialize Firebase
+        // const app = firebase.initializeApp(firebaseConfig);
+        // const analytics = getAnalytics(app);
+        // //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.firestore().doc('/foo/bar').get().then(() => { });
+        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
+        // // firebase.messaging().requestPermission().then(() => { });
+        // // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        // firebase.analytics(); // call to activate
+        // // firebase.analytics().logEvent('tutorial_completed');
+        // // firebase.performance(); // call to activate
+        // //
+        // // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        // try {
+        //   let app = firebase.app();
+        //   let features = [
+        //     'auth', 
+        //     'database', 
+        //     'firestore',
+        //     'functions',
+        //     'messaging', 
+        //     'storage', 
+        //     'analytics', 
+        //     'remoteConfig',
+        //     'performance',
+        //   ].filter(feature => typeof app[feature] === 'function');
+        //   loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        // } catch (e) {
+        //   console.error(e);
+        //   loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        // }
+      });
+    </script>
+  </body>
+</html>
